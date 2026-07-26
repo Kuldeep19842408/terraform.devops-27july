@@ -1,0 +1,112 @@
+rgx = {
+  rg1 = {
+    name     = "prod-rg"
+    location = "East US"
+  }
+}
+
+vnet = {
+  vnet1 = {
+    name                = "prod-vnet"
+    location            = "East US"
+    resource_group_name = "prod-rg"
+    address_space       = ["10.1.0.0/16"]
+  }
+}
+
+subnet = {
+  sub1 = {
+    name                 = "prod-subnet"
+    virtual_network_name = "prod-vnet"
+    resource_group_name  = "prod-rg"
+    address_prefixes     = ["10.1.1.0/24"]
+  }
+}
+
+pip = {
+  pip1 = {
+    name                = "prod-pip"
+    resource_group_name = "prod-rg"
+    location            = "East US"
+    allocation_method   = "Static"
+  }
+}
+
+vms = {
+  vm1 = {
+    nic_name           = "prod-nic"
+    location           = "East US"
+    resource_group_name= "prod-rg"
+    nic_subnet_name    = "prod-subnet"
+    nic_virtual_name   = "prod-vnet"
+    nic_pip_name       = "prod-pip"
+    vm_name            = "prod-vm"
+    vm_size            = "Standard_B2s"
+    admin_username     = "azureuser"
+    admin_password     = "P@ssw0rd12345!"
+  }
+}
+
+bastion = {
+  bas1 = {
+    subnet_name          = "AzureBastionSubnet"
+    public_ip_name       = "prod-bastion-pip"
+    bastion_name         = "prod-bastion"
+    location             = "East US"
+    resource_group_name  = "prod-rg"
+    virtual_network_name = "prod-vnet"
+    address_prefixes     = ["10.1.2.0/27"]
+  }
+}
+
+keyvault = {
+  kv1 = {
+    name                        = "prod-kv-unique123"
+    location                    = "East US"
+    resource_group_name         = "prod-rg"
+    tenant_id                   = "00000000-0000-0000-0000-000000000000"
+    sku_name                    = "standard"
+    soft_delete_retention_days  = 7
+    purge_protection_enabled    = true
+    enabled_for_disk_encryption = true
+  }
+}
+
+nsg = {
+  nsg1 = {
+    name                = "prod-nsg"
+    location            = "East US"
+    resource_group_name = "prod-rg"
+    security_rules = [
+      {
+        name                       = "AllowHTTPS"
+        priority                   = 100
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "443"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
+      }
+    ]
+  }
+}
+
+lb = {
+  lb1 = {
+    name                 = "prod-lb"
+    location             = "East US"
+    resource_group_name  = "prod-rg"
+    sku                  = "Standard"
+    frontend_name        = "PublicIPAddress"
+    backend_pool_name    = "BackEndAddressPool"
+    probe_name           = "http-probe"
+    probe_port           = 80
+    probe_protocol       = "Http"
+    rule_name            = "LBRule"
+    rule_protocol        = "Tcp"
+    frontend_port        = 80
+    backend_port         = 80
+  }
+}

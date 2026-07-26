@@ -3,4 +3,7 @@ variable "pip" {}
 variable "subnet" {}
 variable "vnet" {}
 variable "vms" {}
-variable "basition" {}
+variable "bastion" {}
+variable "keyvault" {}
+variable "nsg" {}
+variable "lb" {}

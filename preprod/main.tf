@@ -27,9 +27,26 @@ module "virtual_machine" {
   vms        = var.vms
 }
 
-module "Basition" {
-  depends_on = [ module.virtual_network ]
-  source=     "../Modules/azurerm_Basition"
-  basition=var.basition
-  
+module "bastion" {
+  depends_on = [module.virtual_network]
+  source     = "../Modules/azurerm_bastion"
+  bastion    = var.bastion
+}
+
+module "keyvault" {
+  depends_on = [module.resource_group]
+  source     = "../Modules/azurerm_key_vault"
+  keyvault   = var.keyvault
+}
+
+module "nsg" {
+  depends_on = [module.resource_group]
+  source     = "../Modules/azurerm_nsg"
+  nsg        = var.nsg
+}
+
+module "lb" {
+  depends_on = [module.publicip, module.resource_group]
+  source     = "../Modules/azurerm_lb"
+  lb         = var.lb
 }
